@@ -20,6 +20,8 @@ def exit_handler():
 
 atexit.register(exit_handler)
 
+
+
 class appClient:
     def __init__(self):
         ## Remove this line if you are distibuting the app on a non-windows platform
@@ -41,11 +43,16 @@ class appClient:
         self.tempScore = {} # Temp Real Score
 
         ## Define our RGB values for each different hit type
+        self.rgbOptions = self.getOptions()
+        score300 = self.rgbOptions["300"]
+        score100 = self.rgbOptions["100"]
+        score50 = self.rgbOptions["50"]
+        scoreMiss = self.rgbOptions["miss"]
         self.rgbMap = {
-            "300": RGBColor(0,0,255),
-            "100": RGBColor(0,255,0),
-            "50": RGBColor(255,255,0),
-            "miss": RGBColor(255,0,0)
+            "300": RGBColor(score300[0], score300[1], score300[2]),
+            "100": RGBColor(score100[0], score100[1], score100[2]),
+            "50": RGBColor(score50[0], score50[1], score50[2]),
+            "miss": RGBColor(scoreMiss[0], scoreMiss[1], scoreMiss[2])
         }
     
     def startOpenRGBClient(self):
@@ -59,6 +66,21 @@ class appClient:
             except:
                 pass
             time.sleep(0.5)
+    
+    def getOptions(self):
+        if os.path.exists("config.json"):
+            with open("config.json", "r") as f:
+                return json.load(f)
+        else:
+            with open("config.json", "w") as f:
+                x = {
+                    "300": (0,0,255),
+                    "100": (0,255,0),
+                    "50": (255,255,0),
+                    "miss": (255,0,0)
+                }
+                json.dump(x, f)
+                return x
     
     def bootup(self):
         ## For Windows Dist Only. Ignore for all other platforms
