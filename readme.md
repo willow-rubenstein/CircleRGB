@@ -4,7 +4,7 @@
 # How to run on windows:
 - Go to releases
 - Install latest release binary (includes all dependencies)
-> Note: You have to disable the firewall for OpenRGB so it can connect to the program, and disable any other keyboard software you have open (i.e. logitech g hub for logitech keyboards, etc. for the program to work.
+> Note: You have to disable the firewall for OpenRGB so it can connect to the program, and disable any other keyboard software you have open (i.e. Logitech G-Hub for Logitech keyboards, etc. for the program to work.
 
 # How to homebrew:
 - Install Python <= 3.10 if you do not have it already
