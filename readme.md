@@ -4,6 +4,7 @@
 # How to run on windows:
 - Go to releases
 - Install latest release binary (includes all dependencies)
+> Note: You have to disable the firewall for OpenRGB so it can connect to the program, and disable any other keyboard software you have open (i.e. logitech g hub for logitech keyboards, etc. for the program to work.
 
 # How to homebrew:
 - Install Python <= 3.10 if you do not have it already
@@ -14,4 +15,4 @@
 
 ## If your keyboard does not work with OpenRGB, please put an issue request in [Issues](https://github.com/MaleVTuber/CircleRGB/issues) with a link to your keyboard, and I will look at manually supporting it if possible.
 
-## Note: If you are using the release binary, it will autolaunch openRGB and gosumemory for you, but you have to disable the firewall for openRGB so it can connect to the program, and disable any other keyboard software you have open for it to work.
+## 
