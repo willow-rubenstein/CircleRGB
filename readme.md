@@ -13,3 +13,5 @@
 - In order to run the program, you must have gosumemory, gosumemory, and osu! running at the same time.
 
 ## If your keyboard does not work with OpenRGB, please put an issue request in [Issues](https://github.com/MaleVTuber/CircleRGB/issues) with a link to your keyboard, and I will look at manually supporting it if possible.
+
+## Note: If you are using the release binary, it will autolaunch openRGB and gosumemory for you, but you have to disable the firewall for openRGB so it can connect to the program, and disable any other keyboard software you have open for it to work.
