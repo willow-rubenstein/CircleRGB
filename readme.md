@@ -1,5 +1,5 @@
 # CircleRGB - A Program by Ashe Muller
-> If you end up using this for a YouTube video or stream, credit is greatly appreciated!
+> If you end up using this for a YouTube video or stream, credit is greatly appreciated! If you want to talk to me about any of this, my Discord is always open (Ashe#9450), or you can reach me [on twitter](https://twitter.com/MaleVTuber)!
 
 # How to run on windows:
 - Go to releases
