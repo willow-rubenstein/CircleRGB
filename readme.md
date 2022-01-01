@@ -1,7 +1,6 @@
-# CircleRGB
-## A Program by Ashe Muller
+# CircleRGB - A Program by Ashe Muller
 > If you end up using this for a YouTube video or stream, credit is greatly appreciated!
-> 
+
 # How to run on windows:
 - Go to releases
 - Install latest release binary (includes all dependencies)
