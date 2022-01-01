@@ -12,4 +12,4 @@
 - Install [gosumemory](https://github.com/l3lackShark/gosumemory) or build for your platform
 - In order to run the program, you must have gosumemory, gosumemory, and osu! running at the same time.
 
-If you end up using this for a YouTube video or stream, credit is greatly appreciated!
+>If you end up using this for a YouTube video or stream, credit is greatly appreciated!
