@@ -1,0 +1,7 @@
+__pycache__/
+build/
+dist/
+venv/
+client.spec
+config.ini
+Windows x64 Binary.zip
