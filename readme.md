@@ -13,4 +13,4 @@
 - Install [gosumemory](https://github.com/l3lackShark/gosumemory) or build for your platform
 - In order to run the program, you must have gosumemory, gosumemory, and osu! running at the same time.
 
-If your keyboard does not work with OpenRGB, please put an issue request in [Issues](https://github.com/MaleVTuber/CircleRGB/issues) with a link to your keyboard, and I will look at manually supporting it if possible.
+## If your keyboard does not work with OpenRGB, please put an issue request in [Issues](https://github.com/MaleVTuber/CircleRGB/issues) with a link to your keyboard, and I will look at manually supporting it if possible.
