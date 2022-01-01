@@ -20,8 +20,6 @@ def exit_handler():
 
 atexit.register(exit_handler)
 
-
-
 class appClient:
     def __init__(self):
         ## Remove this line if you are distibuting the app on a non-windows platform
