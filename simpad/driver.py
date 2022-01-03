@@ -25,8 +25,10 @@ class SimpadDriver:
             return False
 
     def getHexes(rgb):
-        ## First is the key (06 for left, 07 for right) followed by the 3 split up hexes for the rgb, followed by 0x04 
-        ## (100% brightness) and finished with elements 2-5 to each other's powers consecutively as hex
+        """
+        First is the key (06 for left, 07 for right) followed by the r,g,b values, followed by 0x04 
+        (100% brightness), and finished with elements 2-5 to each other's powers consecutively as hex
+        """
         arr = [0x07, rgb[0], rgb[1], rgb[2], 0x04, 0x00]
         arr[5] = arr[1] ^ arr[2] ^ arr[3] ^ arr[4]
         hexes = [hex(x) for x in arr]
