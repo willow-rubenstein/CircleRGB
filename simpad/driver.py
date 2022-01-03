@@ -4,8 +4,6 @@ Please, do credit me if you use this driver. I actually had to do this from the 
 """
 
 from pywinusb import hid
-import textwrap
-import ctypes
 
 class SimpadDriver:
     def __init__(self):
@@ -14,11 +12,14 @@ class SimpadDriver:
             self.device.open()
 
     def get_device(self):
-        filter = hid.HidDeviceFilter(vendor_id = 0x8088, product_id = 0x0006) #Simpad v2 Anniversary Edition
+        filter = hid.HidDeviceFilter(vendor_id = 0x8088) # Filter by the SimPad vendor ID
         devices = filter.get_devices()
-        hid_device = filter.get_devices()
-        if len(devices) > 0:
-            return hid_device[0]
+        if len(devices) > 0: # Make sure there is at least 1 device with the vendor ID
+            for item in devices:
+                ## Search for product ID in list of all IDs
+                if item.product_id in [0x0302, 0x0102, 0x0007, 0x0006, 0x0004, 0x0003, 0x0002, 0x0001]:
+                    print(f"Found Simpad with Device ID {item.product_id}")
+                    return item
         else:
             print("No devices found")
             return False
@@ -43,49 +44,17 @@ class SimpadDriver:
             bufferIn = self.getHexes(hitCategory)
             for y in range(6):
                 buffer[y]=bufferIn[y-1]
-            ## Change oaround a few values that fail to get edited usually
+            ## Change around a few values that fail to get edited usually
             buffer[0]=0x00
             buffer[1]=key[k-1]
             buffer[6]=bufferIn[5]
             out_report = self.device.find_output_reports()
             out_report[0].set_raw_data(buffer)
             out_report[0].send()
-
-    def turnOff(self):
-        """
-        Turns off the pad
-        """
-        
-        buffer= [0x00]*65
-        bufferIn = [0x08, 0x03, 0xFF, 0xFF, 0x04, 0x07]
-        for y in range(6):
-            buffer[y]=bufferIn[y-1]
-        ## Change oaround a few values that fail to get edited usually
-        buffer[0]=0x00
-        buffer[6]=bufferIn[5]
-        out_report = self.device.find_output_reports()
-        out_report[0].set_raw_data(buffer)
-        out_report[0].send()
-
-    def turnOn(self):
-        """
-        Turns on the pad
-        """
-        
-        buffer= [0x00]*65
-        bufferIn = [0x08, 0x02, 0xFF, 0xFF, 0x04, 0x06]
-        for y in range(6):
-            buffer[y]=bufferIn[y-1]
-        ## Change oaround a few values that fail to get edited usually
-        buffer[0]=0x00
-        buffer[6]=bufferIn[5]
-        out_report = self.device.find_output_reports()
-        out_report[0].set_raw_data(buffer)
-        out_report[0].send()
     
     def blackout(self):
         """
-        Resets color to black
+        Resets color to black (Used when transitioning in between levels and the menu, restarting songs (still not fixed yets), etc.)
         """
         key = [0x06,0x07]
         for k in range(2):
@@ -100,5 +69,3 @@ class SimpadDriver:
             out_report = self.device.find_output_reports()
             out_report[0].set_raw_data(buffer)
             out_report[0].send()
-
-pad = SimpadDriver()
