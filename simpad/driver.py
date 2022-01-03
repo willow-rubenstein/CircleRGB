@@ -38,7 +38,6 @@ class SimpadDriver:
     
     def changeRGB(self, hitCategory):
         key = [0x06,0x07]
-        print(f"SIMPAD DRIVER DEBUG: changing color for hit category {hitCategory}")
         for k in range(2):
             buffer= [0x00]*65
             bufferIn = self.getHexes(hitCategory)
@@ -89,7 +88,6 @@ class SimpadDriver:
         Resets color to black
         """
         key = [0x06,0x07]
-        print(f"SIMPAD DRIVER DEBUG: changing color to black")
         for k in range(2):
             buffer= [0x00]*65
             bufferIn = [0x06, 0x00, 0x00, 0x00, 0x04, 0x04]
