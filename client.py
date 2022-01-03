@@ -88,9 +88,8 @@ class appClient:
     
     def bootup(self):
         ## For Windows Dist Only. Ignore for all other platforms
-        os.startfile("gosumemory.exe")
-        os.startfile(os.path.join("openRGB", "OpenRGB.exe"))
-        subprocess.Popen(["openRGB/openRGB.exe", '--startminimized', '--server'])
+        Thread(target=os.system, args=("gosumemory.exe",)).start()
+        Thread(target=os.system, args=("openRGB/openRGB.exe --startminimized --server",)).start()
 
     def run(self):
         websocket = websockets.WebSocketApp("ws://localhost:24050/ws",
