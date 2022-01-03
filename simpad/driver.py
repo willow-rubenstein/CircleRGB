@@ -34,12 +34,6 @@ class SimpadDriver:
         arr[5] = arr[1] ^ arr[2] ^ arr[3] ^ arr[4]
         print(arr)
         return arr
-
-    def get_number(self, values):
-        total = 0
-        for val in reversed(values):
-            total = (total << 8) + val
-        return total 
     
     def changeRGB(self, rgb):
         key = [0x06,0x07]
@@ -52,7 +46,6 @@ class SimpadDriver:
             buffer[0]=0x00
             buffer[1]=key[k-1]
             buffer[6]=bufferIn[5]
-            print(buffer)
             out_report = self.device.find_output_reports()
             out_report[0].set_raw_data(buffer)
             out_report[0].send()

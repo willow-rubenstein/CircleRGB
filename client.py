@@ -19,7 +19,7 @@ class appClient:
         if sim.device:
             self.isSimpad = True
             self.device = sim
-            os.startfile("gosumemory.exe")
+            Thread(target=os.system, args=("gosumemory.exe",)).start()
         else:
             self.bootup()
             self.client = None
