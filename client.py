@@ -9,18 +9,6 @@ import time
 import atexit
 from simpad.driver import SimpadDriver
 
-def exit_handler():
-    """
-    Handle Closing OpenRGB/gosumemory on program closed
-    This one is also PC-Only, remove it if you're on another platform, 
-    or change it to that platform's equivelant if you'd like
-    """
-    print("Closing OpenRGB/gosumemory")
-    os.system("taskkill /im gosumemory.exe")
-    if not a.isSimpad:
-        os.system("taskkill /im OpenRGB.exe")
-
-atexit.register(exit_handler)
 
 class appClient:
     def __init__(self):
@@ -185,3 +173,17 @@ class appClient:
 
 a = appClient()
 a.run()
+
+def exit_handler():
+    """
+    Handle Closing OpenRGB/gosumemory on program closed
+    This one is also PC-Only, remove it if you're on another platform, 
+    or change it to that platform's equivelant if you'd like
+    """
+    print("Closing OpenRGB/gosumemory")
+    os.system("taskkill /im gosumemory.exe")
+    if not a.isSimpad:
+        os.system("taskkill /im OpenRGB.exe")
+
+atexit.register(exit_handler)
+
