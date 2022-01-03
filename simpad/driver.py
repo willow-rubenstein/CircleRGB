@@ -10,6 +10,8 @@ import ctypes
 class SimpadDriver:
     def __init__(self):
         self.device = self.get_device()
+        if self.device:
+            self.device.open()
 
     def get_device(self):
         filter = hid.HidDeviceFilter(vendor_id = 0x8088, product_id = 0x0006) #Simpad v2 Anniversary Edition
@@ -20,21 +22,66 @@ class SimpadDriver:
         else:
             print("No devices found")
             return False
-    
-    def changeRGB(self, hexes):
-        vals = textwrap.wrap(hexes, 2)
-        colorHexes = [] # Create a temp list of our color hex as a list of hexes with 4 characters each (i.e. 0xFF)
-        for val in vals:
-            colorHexes.append(hex(int("0x"+val, 16)))
-        for i in range(2):
-            x = i+5
-            buffer= [0x00]*65
-            ## First is the key (06 for left, 07 for right) followed by the 3 split up hexes for the rgb, followed by 0x04 
-            ## (100% brightness) and finished with 0xFB
-            bufferIn = [hex(int("0x0"+str(x), 16)), colorHexes[0], colorHexes[1], colorHexes[2], 0x04, 0xFB] 
-            for i in range(6):
-                buffer[i]=bufferIn[i-1]
-            buffer[6]=0xFB
-            arr = (ctypes.c_byte * len(buffer))(*buffer)
-            self.device.send_output_report(arr)
 
+    def getHexes(self, category):
+        ## First is the key (06 for left, 07 for right) followed by the 3 split up hexes for the rgb, followed by 0x04 
+        ## (100% brightness) and finished with 0xFB
+        match category: # I was unable to automate the creation of hex, unfortuantely.
+            case "300":
+                return [0x07, 0x00, 0x00, 0xFF, 0x04, 0xFB] ## Blue
+            case "100":
+                return [0x07, 0x00, 0xFF, 0x00, 0x04, 0xFB] ## Green
+            case "50":
+                return [0x07, 0xFF, 0xEB, 0x00, 0x04, 0x10] ## Yellow
+            case "miss":
+                return [0x07, 0xFF, 0x00, 0x00, 0x04, 0xFB] ## Red
+    
+    def changeRGB(self, hitCategory):
+        key = [0x06,0x07]
+        print(f"SIMPAD DRIVER DEBUG: changing color for hit category {hitCategory}")
+        for k in range(2):
+            buffer= [0x00]*65
+            bufferIn = self.getHexes(hitCategory)
+            for y in range(6):
+                buffer[y]=bufferIn[y-1]
+            ## Change oaround a few values that fail to get edited usually
+            buffer[0]=0x00
+            buffer[1]=key[k-1]
+            buffer[6]=bufferIn[5]
+            out_report = self.device.find_output_reports()
+            out_report[0].set_raw_data(buffer)
+            out_report[0].send()
+
+    def turnOff(self):
+        """
+        Turns off the pad
+        """
+        
+        buffer= [0x00]*65
+        bufferIn = [0x08, 0x03, 0xFF, 0xFF, 0x04, 0x07]
+        for y in range(6):
+            buffer[y]=bufferIn[y-1]
+        ## Change oaround a few values that fail to get edited usually
+        buffer[0]=0x00
+        buffer[6]=bufferIn[5]
+        out_report = self.device.find_output_reports()
+        out_report[0].set_raw_data(buffer)
+        out_report[0].send()
+
+    def turnOn(self):
+        """
+        Turns on the pad
+        """
+        
+        buffer= [0x00]*65
+        bufferIn = [0x08, 0x02, 0xFF, 0xFF, 0x04, 0x06]
+        for y in range(6):
+            buffer[y]=bufferIn[y-1]
+        ## Change oaround a few values that fail to get edited usually
+        buffer[0]=0x00
+        buffer[6]=bufferIn[5]
+        out_report = self.device.find_output_reports()
+        out_report[0].set_raw_data(buffer)
+        out_report[0].send()
+
+pad = SimpadDriver()
