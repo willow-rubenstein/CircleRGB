@@ -12,19 +12,20 @@ class SimpadDriver:
             self.device.open()
 
     def get_device(self):
+        """ 
+        Returns the first device found with the vendor id for simPad (0x8088)
+        """
         filter = hid.HidDeviceFilter(vendor_id = 0x8088) # Filter by the SimPad vendor ID
         devices = filter.get_devices()
+        print(devices)
         if len(devices) > 0: # Make sure there is at least 1 device with the vendor ID
-            for item in devices:
-                ## Search for product ID in list of all IDs
-                if item.product_id in [0x0302, 0x0102, 0x0007, 0x0006, 0x0004, 0x0003, 0x0002, 0x0001]:
-                    print(f"Found Simpad with Device ID {item.product_id}")
-                    return item
+            print("device found!")
+            return devices[0]
         else:
             print("No devices found")
             return False
 
-    def getHexes(rgb):
+    def getHexes(self, rgb):
         """
         First is the key (06 for left, 07 for right) followed by the r,g,b values, followed by 0x04 
         (100% brightness), and finished with elements 2-5 to each other's powers consecutively as hex
@@ -66,3 +67,5 @@ class SimpadDriver:
             out_report = self.device.find_output_reports()
             out_report[0].set_raw_data(buffer)
             out_report[0].send()
+
+sim = SimpadDriver()
