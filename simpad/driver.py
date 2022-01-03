@@ -83,5 +83,24 @@ class SimpadDriver:
         out_report = self.device.find_output_reports()
         out_report[0].set_raw_data(buffer)
         out_report[0].send()
+    
+    def blackout(self):
+        """
+        Resets color to black
+        """
+        key = [0x06,0x07]
+        print(f"SIMPAD DRIVER DEBUG: changing color to black")
+        for k in range(2):
+            buffer= [0x00]*65
+            bufferIn = [0x06, 0x00, 0x00, 0x00, 0x04, 0x04]
+            for y in range(6):
+                buffer[y]=bufferIn[y-1]
+            ## Change oaround a few values that fail to get edited usually
+            buffer[0]=0x00
+            buffer[1]=key[k-1]
+            buffer[6]=bufferIn[5]
+            out_report = self.device.find_output_reports()
+            out_report[0].set_raw_data(buffer)
+            out_report[0].send()
 
 pad = SimpadDriver()

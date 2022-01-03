@@ -7,6 +7,7 @@ import os
 import subprocess
 import time
 import atexit
+from simpad.driver import SimpadDriver
 
 def exit_handler():
     """
@@ -16,17 +17,26 @@ def exit_handler():
     """
     print("Closing OpenRGB/gosumemory")
     os.system("taskkill /im gosumemory.exe")
-    os.system("taskkill /im OpenRGB.exe")
+    if not a.isSimpad:
+        os.system("taskkill /im OpenRGB.exe")
 
 atexit.register(exit_handler)
 
 class appClient:
     def __init__(self):
         ## Remove this line if you are distibuting the app on a non-windows platform
-        self.bootup()
-        self.client = None
-        self.keyboard = None
-        self.startOpenRGBClient() # Shit fucking crashes every time, man
+        sim = SimpadDriver()
+        self.isSimpad = False
+        self.device = None
+        if sim.device:
+            self.isSimpad = True
+            self.device = sim
+            os.startfile("gosumemory.exe")
+        else:
+            self.bootup()
+            self.client = None
+            self.keyboard = None
+            self.startOpenRGBClient() # Shit fucking crashes every time, man
 
         self.currentScoreType = "0"
         print("Keyboard initialized successfully")
@@ -103,8 +113,10 @@ class appClient:
             "miss": 0
         }
         self.currentScoreType = "0"
-        self.clearKeyboard()
-
+        if not self.isSimpad:
+            self.clearKeyboard()
+        else:
+            self.device.blackout()
 
     def on_message(self, ws, message):
         try:
@@ -154,9 +166,13 @@ class appClient:
             Thread(target=self.itemLogic, args=(item,self.tempScore[item],)).start()
     
     def setLight(self, hitType):
-        rgb = self.rgbMap[hitType]
-        print(f"Changing light for hit type {hitType} with rgb {rgb}")
-        self.keyboard.set_color(rgb, False)
+        if self.isSimpad:
+            print(f"Changing light for hit type {hitType} for SimPad")
+            self.device.changeRGB(hitType)
+        else:
+            rgb = self.rgbMap[hitType]
+            print(f"Changing light for hit type {hitType} with rgb {rgb}")
+            self.keyboard.set_color(rgb, False)
 
 a = appClient()
 a.run()
