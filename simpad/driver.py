@@ -67,5 +67,3 @@ class SimpadDriver:
             out_report = self.device.find_output_reports()
             out_report[0].set_raw_data(buffer)
             out_report[0].send()
-
-sim = SimpadDriver()
