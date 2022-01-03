@@ -11,7 +11,6 @@ for i in range(6):
     buffer[i]=bufferIn[i-1]
 buffer[0]=0x00
 buffer[6]=0xFB
-arr = (ctypes.c_byte * len(buffer))(*buffer)
 
 out_report = device.find_output_reports()
 out_report[0].set_raw_data(buffer)

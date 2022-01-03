@@ -1,9 +1,1 @@
-altgraph==0.17.2
-future==0.18.2
-openrgb-python==0.2.14
-pefile==2021.9.3
-psutil==5.9.0
-pyinstaller==4.7
-pyinstaller-hooks-contrib==2021.4
-pywin32-ctypes==0.2.0
-websocket-client==1.2.3
+pywinusb==0.4.2
