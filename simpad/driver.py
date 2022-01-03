@@ -30,8 +30,9 @@ class SimpadDriver:
         First is the key (06 for left, 07 for right) followed by the r,g,b values, followed by 0x04 
         (100% brightness), and finished with elements 2-5 to each other's powers consecutively as hex
         """
-        arr = [0x07, int(rgb[0], 16), int(rgb[1], 16), int(rgb[2], 16), 0x04, 0x00]
-        arr[5] = int(arr[1] ^ arr[2] ^ arr[3] ^ arr[4], 16)
+        arr = [0x07, rgb[0], rgb[1], rgb[2], 0x04, 0x00]
+        arr[5] = arr[1] ^ arr[2] ^ arr[3] ^ arr[4]
+        print(arr)
         return arr
 
     def get_number(self, values):
@@ -51,11 +52,9 @@ class SimpadDriver:
             buffer[0]=0x00
             buffer[1]=key[k-1]
             buffer[6]=bufferIn[5]
-            for item in buffer:
-                if type(item) == str:
-                    item = int(item, 16)
+            print(buffer)
             out_report = self.device.find_output_reports()
-            out_report[0].set_raw_data(list(map(hex,buffer)))
+            out_report[0].set_raw_data(buffer)
             out_report[0].send()
     
     def blackout(self):
