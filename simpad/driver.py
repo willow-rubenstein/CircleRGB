@@ -30,21 +30,7 @@ class SimpadDriver:
         arr = [0x07, rgb[0], rgb[1], rgb[2], 0x04, 0x00]
         arr[5] = arr[1] ^ arr[2] ^ arr[3] ^ arr[4]
         hexes = [hex(x) for x in arr]
-        return hexes
-        """
-         match category: # I was unable to automate the creation of hex, unfortuantely.
-                case "300":
-                    return [0x07, 0x00, 0x00, 0xFF, 0x04, 0xFB] ## Blue
-                case "100":
-                    return [0x07, 0x00, 0xFF, 0x00, 0x04, 0xFB] ## Green
-                case "50":
-                    return [0x07, 0xFF, 0xEB, 0x00, 0x04, 0x10] ## Yellow
-                case "miss":
-                    return [0x07, 0xFF, 0x00, 0x00, 0x04, 0xFB] ## Red
-
-        This block is commented out until I figure out what to do with it.
-        I have to figure out the point of the 6th element in the list.
-        """     
+        return hexes  
     
     def changeRGB(self, rgb):
         key = [0x06,0x07]
