@@ -24,24 +24,30 @@ class SimpadDriver:
             print("No devices found")
             return False
 
-    def getHexes(self, category):
+    def getHexes(self, rgb):
         ## First is the key (06 for left, 07 for right) followed by the 3 split up hexes for the rgb, followed by 0x04 
         ## (100% brightness) and finished with 0xFB
-        match category: # I was unable to automate the creation of hex, unfortuantely.
-            case "300":
-                return [0x07, 0x00, 0x00, 0xFF, 0x04, 0xFB] ## Blue
-            case "100":
-                return [0x07, 0x00, 0xFF, 0x00, 0x04, 0xFB] ## Green
-            case "50":
-                return [0x07, 0xFF, 0xEB, 0x00, 0x04, 0x10] ## Yellow
-            case "miss":
-                return [0x07, 0xFF, 0x00, 0x00, 0x04, 0xFB] ## Red
+        return [0x07, hex(rgb[0]), hex(rgb[1]), hex(rgb[2]), 0x04, 0xFB]
+        """
+         match category: # I was unable to automate the creation of hex, unfortuantely.
+                case "300":
+                    return [0x07, 0x00, 0x00, 0xFF, 0x04, 0xFB] ## Blue
+                case "100":
+                    return [0x07, 0x00, 0xFF, 0x00, 0x04, 0xFB] ## Green
+                case "50":
+                    return [0x07, 0xFF, 0xEB, 0x00, 0x04, 0x10] ## Yellow
+                case "miss":
+                    return [0x07, 0xFF, 0x00, 0x00, 0x04, 0xFB] ## Red
+
+        This block is commented out until I figure out what to do with it.
+        I have to figure out the point of the 6th element in the list.
+        """     
     
-    def changeRGB(self, hitCategory):
+    def changeRGB(self, rgb):
         key = [0x06,0x07]
         for k in range(2):
             buffer= [0x00]*65
-            bufferIn = self.getHexes(hitCategory)
+            bufferIn = self.getHexes(rgb) ## New in this version: I figured out how to get the rgb lmao
             for y in range(6):
                 buffer[y]=bufferIn[y-1]
             ## Change around a few values that fail to get edited usually
