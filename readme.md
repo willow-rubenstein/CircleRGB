@@ -20,3 +20,4 @@
 
 ## If your keyboard does not work with OpenRGB, please put an issue request in [Issues](https://github.com/MaleVTuber/CircleRGB/issues) with a link to your keyboard, and I will look at manually supporting it if possible.
 
+> Join the [Discord](https://discord.gg/FPwFZ7fS4Q) to get updated on new releases and meet other users!
