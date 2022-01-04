@@ -40,10 +40,10 @@ class appClient:
 
         ## Define our RGB values for each different hit type
         self.rgbOptions = self.getOptions()
-        score300 = self.rgbOptions["300"]
-        score100 = self.rgbOptions["100"]
-        score50 = self.rgbOptions["50"]
-        scoreMiss = self.rgbOptions["miss"]
+        score300 = tuple(int(self.rgbOptions["300"].lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
+        score100 = tuple(int(self.rgbOptions["100"].lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
+        score50 = tuple(int(self.rgbOptions["50"].lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
+        scoreMiss = tuple(int(self.rgbOptions["100"].lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
         if self.isSimpad != True:
             self.rgbMap = {
                 "300": RGBColor(score300[0], score300[1], score300[2]),
@@ -78,10 +78,10 @@ class appClient:
         else:
             with open("config.json", "w") as f:
                 x = {
-                    "300": (0,0,255),
-                    "100": (0,255,0),
-                    "50": (255,255,0),
-                    "miss": (255,0,0)
+                    "300": "#0000ff",
+                    "100": "#00ff00",
+                    "50": "#ffff00",
+                    "miss": "#ff0000"
                 }
                 json.dump(x, f)
                 return x
@@ -89,7 +89,7 @@ class appClient:
     def bootup(self):
         ## For Windows Dist Only. Ignore for all other platforms
         Thread(target=os.system, args=("gosumemory.exe",)).start()
-        Thread(target=os.system, args=("openRGB\openRGB.exe --startminimized --server",)).start()
+        Thread(target=os.system, args=("openRGB\ openRGB.exe --startminimized --server",)).start()
 
     def run(self):
         websocket = websockets.WebSocketApp("ws://localhost:24050/ws",
