@@ -1,8 +1,6 @@
 # CircleRGB - A Program by Ashe Muller
 > If you end up using this for a YouTube video or stream, credit is greatly appreciated! If you want to talk to me about any of this, my Discord is always open (Ashe#9450), or you can reach me [on twitter](https://twitter.com/MaleVTuber)!
 
-> Join the [Discord](https://discord.gg/FPwFZ7fS4Q) to get updated on new releases and meet other users!
-
 # How to run on windows:
 - Go to releases
 - Install latest release binary (includes all dependencies)
@@ -22,3 +20,4 @@
 
 ## If your keyboard does not work with OpenRGB, please put an issue request in [Issues](https://github.com/MaleVTuber/CircleRGB/issues) with a link to your keyboard, and I will look at manually supporting it if possible.
 
+> Join the [Discord](https://discord.gg/FPwFZ7fS4Q) to get updated on new releases and meet other users!
