@@ -8,10 +8,12 @@ import subprocess
 import time
 import atexit
 from simpad.driver import SimpadDriver
+import tools.Updater
 
 
 class appClient:
     def __init__(self):
+        tools.Updater.checkForUpdates()
         ## Remove this line if you are distibuting the app on a non-windows platform
         sim = SimpadDriver()
         self.isSimpad = False
@@ -185,4 +187,3 @@ def exit_handler():
         os.system("taskkill /im OpenRGB.exe")
 
 atexit.register(exit_handler)
-
