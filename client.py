@@ -43,7 +43,7 @@ class appClient:
         score300 = tuple(int(self.rgbOptions["300"].lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
         score100 = tuple(int(self.rgbOptions["100"].lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
         score50 = tuple(int(self.rgbOptions["50"].lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
-        scoreMiss = tuple(int(self.rgbOptions["100"].lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
+        scoreMiss = tuple(int(self.rgbOptions["miss"].lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
         if self.isSimpad != True:
             self.rgbMap = {
                 "300": RGBColor(score300[0], score300[1], score300[2]),
