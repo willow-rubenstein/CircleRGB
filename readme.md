@@ -12,7 +12,7 @@
 - Relaunch the app.
 
 # How to homebrew:
-- Install Python <= 3.10 if you do not have it already
+- Install Python >= 3.10 if you do not have it already
 - Install requirements.txt via pip
 - Install [OpenRGB](https://openrgb.org)
 - Install [gosumemory](https://github.com/l3lackShark/gosumemory) or build for your platform
