@@ -119,6 +119,8 @@ class appClient:
             hits = msg["gameplay"]["hits"]
             if self.tempScore == {} and msg["menu"]["state"] == 2:
                 self.tempScore = hits
+            if msg['gameplay']['score'] == 0:
+                self.resetStats()
             elif msg["gameplay"]["hits"] != self.tempScore and msg["menu"]["state"] == 2:
                 self.tempScore = hits
                 Thread(target=self.logicThread).start()
