@@ -25,17 +25,17 @@ class appClient:
             self.client = None
             self.keyboard = None
             self.startOpenRGBClient() # Shit fucking crashes every time, man
-
-        self.currentScoreType = "0"
+            
         print("Keyboard initialized successfully")
 
+        ## Set Score-Related Class Variables
+        self.currentScoreType = "0"
         self.scoreMap = {
             "300": 0,
             "100": 0,
             "50": 0,
             "miss": 0
         }
-
         self.tempScore = {} # Temp Real Score
 
         ## Define our RGB values for each different hit type
@@ -60,6 +60,11 @@ class appClient:
             }
     
     def startOpenRGBClient(self):
+        """
+        Runs a loop until it grabs the keyboard device connected via OpenRGB.
+        Should probably fix this to where it only calls this function if the user
+        actually has a keyboard that works with OpenRGB currently connected.
+        """
         x = True
         while x:
             try:
@@ -72,6 +77,10 @@ class appClient:
             time.sleep(0.5)
     
     def getOptions(self):
+        """
+        Gets the user's preferences from the config file for RGB colors, and
+        creates a new file if one doesn't exist with the default settings.
+        """
         if os.path.exists("config.json"):
             with open("config.json", "r") as f:
                 return json.load(f)
@@ -96,10 +105,6 @@ class appClient:
                                         on_message=self.on_message)
         websocket.run_forever()     
                 
-    
-    def clearKeyboard(self):
-        self.keyboard.set_color(RGBColor(0,0,0), True)
-    
     def resetStats(self):
         self.scoreMap = {
             "300": 0,
@@ -109,9 +114,9 @@ class appClient:
         }
         self.currentScoreType = "0"
         if not self.isSimpad:
-            self.clearKeyboard()
+            self.keyboard.set_color(RGBColor(0,0,0), True)
         else:
-            self.device.blackout()
+            self.device.reset()
 
     def on_message(self, ws, message):
         try:
@@ -163,13 +168,11 @@ class appClient:
             Thread(target=self.itemLogic, args=(item,self.tempScore[item],)).start()
     
     def setLight(self, hitType):
+        rgb = self.rgbMap[hitType]
+        print(f"Changing light for hit type {hitType}")
         if self.isSimpad:
-            rgb = self.rgbMap[hitType]
-            print(f"Changing light for hit type {hitType} for SimPad")
             self.device.set_color(rgb, simpad.Keys.both)
         else:
-            rgb = self.rgbMap[hitType]
-            print(f"Changing light for hit type {hitType} with rgb {rgb}")
             self.keyboard.set_color(rgb, False)
 
 a = appClient()
@@ -177,13 +180,11 @@ a.run()
 
 def exit_handler():
     """
-    Handle Closing OpenRGB/gosumemory on program closed
-    This one is also PC-Only, remove it if you're on another platform, 
-    or change it to that platform's equivelant if you'd like
+    Handle closing OpenRGB on close (used to close 
+    gosumemory as well, but now that runs in a thread.)
     """
-    print("Closing OpenRGB/gosumemory")
-    os.system("taskkill /im gosumemory.exe")
     if not a.isSimpad:
+        print("Closing OpenRGB")
         os.system("taskkill /im OpenRGB.exe")
 
 atexit.register(exit_handler)
