@@ -7,13 +7,13 @@ import os
 import subprocess
 import time
 import atexit
-from simpad.driver import SimpadDriver
+from simpadlib import simpad
 
 
 class appClient:
     def __init__(self):
         ## Remove this line if you are distibuting the app on a non-windows platform
-        sim = SimpadDriver()
+        sim = simpad.Controller()
         self.isSimpad = False
         self.device = None
         if sim.device:
@@ -53,10 +53,10 @@ class appClient:
             }
         else:
             self.rgbMap = {
-                "300": (score300[0], score300[1], score300[2]),
-                "100": (score100[0], score100[1], score100[2]),
-                "50": (score50[0], score50[1], score50[2]),
-                "miss": (scoreMiss[0], scoreMiss[1], scoreMiss[2])
+                "300": self.rgbOptions["300"],
+                "100": self.rgbOptions["100"],
+                "50": self.rgbOptions["50"],
+                "miss": self.rgbOptions["miss"]
             }
     
     def startOpenRGBClient(self):
@@ -166,7 +166,7 @@ class appClient:
         if self.isSimpad:
             rgb = self.rgbMap[hitType]
             print(f"Changing light for hit type {hitType} for SimPad")
-            self.device.changeRGB(rgb)
+            self.device.set_color(rgb, simpad.Keys.both)
         else:
             rgb = self.rgbMap[hitType]
             print(f"Changing light for hit type {hitType} with rgb {rgb}")

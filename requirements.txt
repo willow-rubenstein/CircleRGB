@@ -7,3 +7,4 @@ pyinstaller-hooks-contrib==2021.4
 pywin32-ctypes==0.2.0
 pywinusb==0.4.2
 websocket-client==1.2.3
+simpadlib==2.2.1
